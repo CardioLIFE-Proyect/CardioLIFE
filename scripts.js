@@ -4,17 +4,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileMenu = document.getElementById('mobileMenu');
 
     if (menuToggle && mobileMenu) {
-        menuToggle.addEventListener('click', function() {
+        menuToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
             menuToggle.classList.toggle('active');
             mobileMenu.classList.toggle('active');
         });
 
-        // Cerrar menú al hacer clic fuera de él
+        // Cerrar menú al hacer clic fuera
         document.addEventListener('click', function(event) {
             if (!menuToggle.contains(event.target) && !mobileMenu.contains(event.target)) {
                 menuToggle.classList.remove('active');
                 mobileMenu.classList.remove('active');
             }
+        });
+
+        // Cerrar menú al hacer clic en un enlace
+        mobileMenu.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                menuToggle.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
         });
     }
 });
